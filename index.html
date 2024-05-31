@@ -75,7 +75,14 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script>
 
-        const images = gsap.utils.toArray("img")
+        const gallery = gsap.utils.toArray("img")
+
+        gsap.set("img", {
+            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)"
+        })
+
+        gsap.set(".border", {scaleX:0})
+        gsap.set(["span", "p"], {yPercent: 100})
 
         const tl = gsap.timeline({
             scrollTrigger:{
@@ -88,44 +95,48 @@
                 //pin:true
             }
         })
-        gsap.set(images, {
-            clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"
-        })
+        
 
-        gsap.set(".border", {scaleX:0})
-        gsap.set(["span", "p"], {yPercent: 100})
-
-        tl.from("li", {y:-100, stagger:0.2})
+        tl
+            .from("li", {
+                y:-100, 
+                stagger:0.2})
             .to("img", {
-            clipPath: "polygon(0 100%, 100% 100%, 100% 46%, 0% 100%)",
+                clipPath: "polygon(0% 95%, 100% 49%, 100% 100%, 0% 100%)",
         }, "<")
             .to("img", {
-            clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
         }, "-=0.5")
-            .to(".border", {scaleX:1, stagger:0.2}, "-=0.5")
-            .to("span", {yPercent:0}, "-=0.5")
-            .to("p", {yPercent:0}, "-=0.2")
+            .to(".border", {
+                scaleX:1
+        }, "-=0.5")
+            .to(["span", "p"], {
+                yPercent:0, 
+                stagger:0.1
+        }, "-=0.5")
 
-        // tl.from("li a", { y:-100, stagger:0.4})
-
-     
-
-        // imgTl
-        //     .from("img", {
+        
+        gallery.forEach(image =>{
             
-        //     keyframes: {
-        //         "0%": { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"},
-        //         "50%": {clipPath: "polygon(0 100%, 100% 100%, 100% 46%, 0% 100%)"},
-        //         "100%": {clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)"}
-        //     },
-        //     stagger:0.4
-        // })
-        //     .from(".border", {scaleX:0})
-        //     .from(".info span", {y:50, ease:"back.out", stagger:0.4}, "<")
-        //     .from(".info p", {y:50, ease:"back.out", stagger:0.4}, "-=2")
+            
+            image.addEventListener('mouseenter', () => {
+                gsap.to(image, {
+                    clipPath: 'polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)'
+                })
+            
+            })
+            image.addEventListener('mouseleave', () => {
+                gsap.to(image, {
+                    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+                })
+            
+            })
+           
+    
+        })
 
-  
-   
+
+        
 
         // smooth scroll
 
